@@ -7,7 +7,7 @@ import (
 	pb "github.com/rkmangalp/go-grpc-basic/proto"
 )
 
-func (s *helloserver) SayHelloServerStream(req *pb.NameList, stream pb.GreetService_SayHelloServerStreamingServer) error {
+func (s *helloserver) SayHelloServerStreaming(req *pb.NameList, stream pb.GreetService_SayHelloServerStreamingServer) error {
 	log.Printf("got request with name: %s", req.Names)
 	for _, name := range req.Names {
 		res := &pb.HelloResponse{

@@ -9,21 +9,31 @@ import (
 )
 
 func callSayHelloServerStream(client pb.GreetServiceClient, names *pb.NameList) {
-	log.Printf("streaming started")
+	// Log the start of the streaming process
+	log.Println("Streaming started")
+
+	// Initiate a server-streaming RPC call to the SayHelloServerStreaming method with the provided context and names
 	stream, err := client.SayHelloServerStreaming(context.Background(), names)
 	if err != nil {
-		log.Fatalf("could not send names: %v", err)
+		log.Fatalf("Failed to send names: %v", err)
 	}
 
+	// Continuously receive messages from the stream until an error or EOF (end of file) is encountered
 	for {
+		// Receive a message from the stream
 		message, err := stream.Recv()
 		if err == io.EOF {
+			// Exit the loop when the stream ends (EOF)
 			break
 		}
 		if err != nil {
-			log.Fatalf("error while streaming %v", err)
+			// Log and exit if any other error occurs during streaming
+			log.Fatalf("Error while streaming: %v", err)
 		}
-		log.Println(message)
+		// Log the received message
+		log.Println("Received message:", message)
 	}
-	log.Printf("streaming finished")
+
+	// Log the end of the streaming process
+	log.Println("Streaming finished")
 }

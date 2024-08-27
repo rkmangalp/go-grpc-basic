@@ -11,7 +11,9 @@ import (
 func callSayHelloClientStream(client pb.GreetServiceClient, names *pb.NameList) {
 	log.Printf("client streaming has started")
 	stream, err := client.SayHelloClientStreaming(context.Background())
-	log.Fatalf("couldnt send names: %v", err)
+	if err != nil {
+		log.Fatalf("Could not initiate client stream: %v", err)
+	}
 
 	for _, name := range names.Names {
 		req := &pb.HelloRequest{
